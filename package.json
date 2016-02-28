@@ -1,0 +1,26 @@
+{
+  "name": "faith",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --watch --content-base assets/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^1.0.16"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "jade": "^1.11.0",
+    "jade-loader": "^0.8.0",
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
+    "ts-loader": "^0.8.1",
+    "typescript": "^1.8.2",
+    "webpack": "^1.12.14"
+  }
+}

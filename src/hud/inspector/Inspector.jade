@@ -1,0 +1,8 @@
+.hud-panel.hud-inspector(v-if="entity")
+  h4 {{ entity.name }}
+  hr
+  ul.hud-inspector-info
+    li hull: {{ entity.hull }}
+    li cargo:&nbsp;
+      hud-progress-bar(:value="entity.cargo")
+    li max. speed: {{ entity.speed || 0 }} km/sec.

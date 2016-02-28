@@ -1,0 +1,13 @@
+{
+  "preset": "node-style-guide",
+  "jsDoc": {
+    "checkAnnotations": "closurecompiler"
+  },
+  "requireCapitalizedComments": false,
+  "maximumLineLength": 120,
+  "validateLineBreaks": false,
+  "fileExtensions": [".js"],
+  "excludeFiles": [
+    "node_modules/**/*"
+  ]
+}
