@@ -1,9 +1,9 @@
-import Universe from './Universe';
-import Vector2 from './Vector2';
-import { Order } from './orders';
+import Entity from './Entity';
+import Universe from '../Universe';
+import Vector2 from '../../common/Vector2';
+import Order from '../orders/Order';
 
-export default class Ship {
-  public pos: Vector2;
+export default class Ship extends Entity {
   public size: string;
   public name: string;
   public speed: number;
@@ -19,6 +19,7 @@ export default class Ship {
   private _prevState: string;
 
   constructor(options) {
+    super();
     this.pos = options.pos;
     this.size = options.size;
     this.name = options.name;

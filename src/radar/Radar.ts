@@ -1,15 +1,15 @@
-import Vector2 from './Vector2';
-import Universe from './Universe';
+import Vector2 from '../common/Vector2';
+import Universe from '../universe/Universe';
 import BackgroundGrid from './BackgroundGrid';
-import Station from './Station';
-import Asteroid from './Asteroid';
-import Ship from './Ship';
-import {
-  FlyToDestinationOrder,
-  ChaseShipOrder,
-  MineAndTradeOrder
-} from './orders';
+import Station from '../universe/entities/Station';
+import Asteroid from '../universe/entities/Asteroid';
+import Ship from '../universe/entities/Ship';
 
+import FlyToDestinationOrder from '../universe/orders/FlyToDestinationOrder';
+import FollowShipOrder from '../universe/orders/FollowShipOrder';
+import MineAndTradeOrder from '../universe/orders/MineAndTradeOrder';
+import FloatAroundTargetOrder from '../universe/orders/FloatAroundTargetOrder';
+ 
 export default class Radar {
   public position: Vector2;
   public zoom: number;
@@ -73,17 +73,17 @@ export default class Radar {
           if (selected && selected instanceof Ship) {
             selected.cancelOrder();
             if (highlighted instanceof Ship) {
-              const order = new ChaseShipOrder(highlighted);
+              const order = new FollowShipOrder(highlighted);
               selected.newOrder(order);
             } else if (highlighted instanceof Asteroid) {
-              const order = new MineAndTradeOrder(highlighted);
+              const order = new MineAndTradeOrder(<Asteroid> highlighted);
               selected.newOrder(order);
             } else {
               const destination = new Vector2(
                 this.position.x + event.x,
                 this.position.y + event.y
               );
-              const order = new FlyToDestinationOrder(destination);
+              const order = new FloatAroundTargetOrder(destination);
               selected.newOrder(order);
             }
           }
@@ -196,9 +196,9 @@ export default class Radar {
       if (orders[i] instanceof FlyToDestinationOrder) {
         ctx.strokeStyle = '#a1b56c';
         ctx.beginPath();
-        ctx.moveTo(orders[i].pos.x, orders[i].pos.y);
+        ctx.moveTo(orders[i].target.x, orders[i].target.y);
         if (orders[i + 1] instanceof FlyToDestinationOrder) {
-          ctx.lineTo(orders[i + 1].pos.x, orders[i + 1].pos.y);
+          ctx.lineTo(orders[i + 1].target.x, orders[i + 1].target.y);
         } else {
           ctx.lineTo(entity.pos.x, entity.pos.y);
         }

@@ -23,51 +23,58 @@ export default class Vector2 {
     return this;
   }
 
-  add(x, y) {
+  add(x: number, y: number) {
     this.x += x;
     this.y += y;
     return this;
   }
 
-  addVector(v) {
+  addVector(v: Vector2) {
     this.x += v.x;
     this.y += v.y;
     return this;
   }
 
-  sub(x, y) {
+  sub(x: number, y: number) {
     this.x -= x;
     this.y -= y;
     return this;
   }
 
-  subVector(v) {
+  subVector(v: Vector2) {
     this.x -= v.x;
     this.y -= v.y;
     return this;
   }
 
-  mulScalar(value) {
+  mulScalar(value: number) {
     this.x *= value;
     this.y *= value;
     return this;
   }
 
-  isNear(x, y, delta) {
+  rotate(angle: number) {
+    return this.set(
+      this.x * Math.cos(angle) - this.y * Math.sin(angle),
+      this.x * Math.sin(angle) + this.y * Math.cos(angle)
+    );
+  }
+
+  isNear(x: number, y: number, delta: number) {
     return this.x <= x + delta &&
       this.x >= x - delta &&
       this.y <= y + delta &&
       this.y >= y - delta;
   }
 
-  isNearVector(v, delta) {
+  isNearVector(v: Vector2, delta: number) {
     return this.x <= v.x + delta &&
       this.x >= v.x - delta &&
       this.y <= v.y + delta &&
       this.y >= v.y - delta;
   }
 
-  distanceTo(x, y) {
+  distanceTo(x: number, y: number) {
     const dx = this.x - x;
     const dy = this.y - y;
     return Math.sqrt(dx * dx + dy * dy);

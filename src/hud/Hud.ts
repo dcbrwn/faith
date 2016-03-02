@@ -1,5 +1,5 @@
 import Vue = require('vue');
-import Faith from '../Faith';
+import Engine from '../Engine';
 
 import Inspector from './inspector/Inspector';
 import ProgressBar from './progressBar/ProgressBar';

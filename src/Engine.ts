@@ -1,7 +1,7 @@
-import Radar from './Radar';
-import Universe from './Universe';
+import Radar from './radar/Radar';
+import Universe from './universe/Universe';
 
-export default class Faith {
+export default class Engine {
   public universe: Universe;
   public radar: Radar;
 

@@ -1,16 +1,16 @@
 /// <reference path="../typings/tsd.d.ts" />
 /// <reference path="./definitions.ts" />
 
-import Faith from './Faith';
+import Engine from './Engine';
 import Hud from './hud/Hud';
 
-const faith = new Faith({
+const engine = new Engine({
   canvasId: 'radar',
 });
 
 const hud = new Hud({
   containerId: 'hud',
-  engine: faith
+  engine: engine
 });
 
-faith.start();
+engine.start();

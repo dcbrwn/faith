@@ -1,7 +1,7 @@
-import Vector2 from './Vector2';
+import Entity from './Entity';
+import Vector2 from '../../common/Vector2';
 
-export default class Station {
-  public pos: Vector2;
+export default class Station extends Entity {
   public size: string;
   public name: string;
 
@@ -15,7 +15,7 @@ export default class Station {
   private _prevState: string;
 
   constructor(options) {
-    this.pos = options.pos;
+    super();
     this.size = options.size;
     this.name = options.name;
     this.orders = [];

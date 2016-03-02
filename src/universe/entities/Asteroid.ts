@@ -1,7 +1,8 @@
-import Vector2 from './Vector2';
+import Vector2 from '../../common/Vector2';
+import Entity from './Entity';
+import Renderable from '../../radar/Renderable';
 
-export default class Asteroid {
-  public pos: Vector2;
+export default class Asteroid extends Entity implements Renderable {
   public size: string;
   public name: string;
 
@@ -15,6 +16,7 @@ export default class Asteroid {
   private _prevState: string;
 
   constructor(options) {
+    super();
     this.pos = options.pos;
     this.size = options.size;
     this.name = options.name;
@@ -44,6 +46,8 @@ export default class Asteroid {
     this._prevZoomLevel = radar.zoomLevel;
 
     const ctx = this.context;
+
+    ctx.translate(0.5, 0.5);
 
     const colors = {
       normal: '#86c1b9',
