@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --watch --content-base assets/"
+    "dev": "webpack-dev-server --watch"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
     "jade": "^1.11.0",
     "jade-loader": "^0.8.0",
     "node-sass": "^3.4.2",

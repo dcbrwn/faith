@@ -4,6 +4,8 @@
 import Engine from './Engine';
 import Hud from './hud/Hud';
 
+require('file?name=[name].[ext]!./index.html');
+
 const engine = new Engine({
   canvasId: 'radar',
 });
