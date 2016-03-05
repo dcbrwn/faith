@@ -8,6 +8,13 @@ export default class Ship extends Entity {
   public name: string;
   public speed: number;
   public cargo: number;
+  public temps: any = {};
+
+  public direction: Vector2 = new Vector2();
+  public throttle: number = 0.0;
+  public force: number = 1e4;
+
+  private forceVector: Vector2 = new Vector2();
 
   public hull: number;
   private shields: number;
@@ -119,11 +126,18 @@ export default class Ship extends Entity {
   }
 
   tick(deltaTime, universe) {
+    this.forceVector
+      .setVector(this.direction)
+      .mulScalar(this.force * this.throttle);
+    this.applyForce(this.forceVector, deltaTime);
+
     const currentOrder = this.getCurrentOrder();
     if (currentOrder) {
       if (!currentOrder.action(deltaTime, universe, this)) {
         this.cancelOrder();
       }
     }
+
+    super.tick(deltaTime, universe);
   }
 }

@@ -5,4 +5,4 @@
     li hull: {{ entity.hull }}
     li cargo:&nbsp;
       hud-progress-bar(:value="entity.cargo")
-    li max. speed: {{ entity.speed || 0 }} km/sec.
+    li speed: {{ entity.vel.length() }}

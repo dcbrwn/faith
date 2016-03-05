@@ -53,6 +53,12 @@ export default class Vector2 {
     return this;
   }
 
+  divScalar(value: number) {
+    this.x /= value;
+    this.y /= value;
+    return this;
+  }
+
   rotate(angle: number) {
     return this.set(
       this.x * Math.cos(angle) - this.y * Math.sin(angle),
@@ -61,17 +67,11 @@ export default class Vector2 {
   }
 
   isNear(x: number, y: number, delta: number) {
-    return this.x <= x + delta &&
-      this.x >= x - delta &&
-      this.y <= y + delta &&
-      this.y >= y - delta;
+    return this.distanceTo(x, y) < delta;
   }
 
   isNearVector(v: Vector2, delta: number) {
-    return this.x <= v.x + delta &&
-      this.x >= v.x - delta &&
-      this.y <= v.y + delta &&
-      this.y >= v.y - delta;
+    return this.distanceToVector(v) < delta;
   }
 
   distanceTo(x: number, y: number) {
@@ -79,7 +79,6 @@ export default class Vector2 {
     const dy = this.y - y;
     return Math.sqrt(dx * dx + dy * dy);
   }
-
 
   distanceToVector(v) {
     const dx = this.x - v.x;
@@ -96,5 +95,9 @@ export default class Vector2 {
     this.x /= length;
     this.y /= length;
     return this;
+  }
+
+  invert() {
+    return this.mulScalar(-1);
   }
 }

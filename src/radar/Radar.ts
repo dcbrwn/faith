@@ -73,7 +73,7 @@ export default class Radar {
           if (selected && selected instanceof Ship) {
             selected.cancelOrder();
             if (highlighted instanceof Ship) {
-              const order = new FollowShipOrder(highlighted);
+              const order = new FlyToDestinationOrder(highlighted.pos);
               selected.newOrder(order);
             } else if (highlighted instanceof Asteroid) {
               const order = new MineAndTradeOrder(<Asteroid> highlighted);
@@ -83,7 +83,7 @@ export default class Radar {
                 this.position.x + event.x,
                 this.position.y + event.y
               );
-              const order = new FloatAroundTargetOrder(destination);
+              const order = new FlyToDestinationOrder(destination);
               selected.newOrder(order);
             }
           }

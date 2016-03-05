@@ -4,6 +4,10 @@ import Universe from '../Universe';
 import NavigationHelper from '../NavigationHelper';
 import Ship from '../entities/Ship';
 
+function clamp(value: number) :number {
+  return Math.max(0.0, Math.min(1.0, value));
+}
+
 export default class FloatAroundTargetOrder extends Order {
   private baseVector: Vector2 = new Vector2(1.0, 0.0);
   private floatTarget: Vector2 = new Vector2();
@@ -29,13 +33,21 @@ export default class FloatAroundTargetOrder extends Order {
       .mulScalar(50.0)
       .addVector(this.target);
 
-    if (!ship.pos.isNearVector(this.floatTarget, 1)) {
-      this.delta.setVector(this.floatTarget)
-        .subVector(ship.pos)
-        .normalize()
-        .mulScalar(ship.speed * deltaTime);
+    ship.throttle = 1.0;
 
-      ship.pos.addVector(this.delta);
+    const distance = ship.pos.distanceToVector(this.floatTarget);
+    const stoppingDistance = NavigationHelper.calcStoppingDistance(ship);
+
+    if (distance > stoppingDistance) {
+      ship.direction
+        .setVector(this.floatTarget)
+        .subVector(ship.pos)
+        .normalize();
+    } else {
+      ship.direction
+        .setVector(ship.vel)
+        .normalize()
+        .invert();
     }
 
     return true;
