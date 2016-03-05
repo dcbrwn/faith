@@ -1,8 +1,8 @@
-.hud-panel.hud-inspector(v-if="entity")
+.hud-panel.hud-inspector
   h4 {{ entity.name }}
   hr
   ul.hud-inspector-info
     li hull: {{ entity.hull }}
-    li cargo:&nbsp;
-      hud-progress-bar(:value="entity.cargo")
-    li speed: {{ entity.vel.length() }}
+    li mass: {{ entity.mass }}
+    li engine: {{ entity.force / 1000 }} kN
+    li speed: {{ Math.round(entity.vel.length()) }} m/sec.

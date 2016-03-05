@@ -1,18 +1,31 @@
 import Entity from './Entity';
+import Character from './Character';
 import Universe from '../Universe';
 import Vector2 from '../../common/Vector2';
 import Order from '../orders/Order';
+import Item from '../items/Item';
+import Inventory from '../items/Inventory';
+import Renderable from '../../radar/Renderable';
 
-export default class Ship extends Entity {
+export default class Ship
+extends Entity
+implements Renderable
+{
   public size: string;
   public name: string;
   public speed: number;
   public cargo: number;
-  public temps: any = {};
+  private hullMass = 10.0;
+  public owner: Character = null; 
+
+  public inventory: Inventory = new Inventory({
+    volume: 100,
+    name: 'Cargo',
+  });
 
   public direction: Vector2 = new Vector2();
   public throttle: number = 0.0;
-  public force: number = 1e4;
+  public force: number = 5e3;
 
   private forceVector: Vector2 = new Vector2();
 
@@ -47,7 +60,7 @@ export default class Ship extends Entity {
     return this.orders[this.orders.length - 1];
   }
 
-  newOrder(order) {
+  newOrder(order: Order) {
     this.orders.unshift(order);
   }
 
@@ -126,6 +139,8 @@ export default class Ship extends Entity {
   }
 
   tick(deltaTime, universe) {
+    this.mass = this.inventory.getTotalMass() + this.hullMass;
+
     this.forceVector
       .setVector(this.direction)
       .mulScalar(this.force * this.throttle);

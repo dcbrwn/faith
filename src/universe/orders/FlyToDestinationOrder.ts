@@ -4,12 +4,12 @@ import Universe from '../Universe';
 import NavigationHelper from '../NavigationHelper';
 import Ship from '../entities/Ship';
 
-export default class FlyToDestinationOrder extends Order {
+export default class FlyToDestinationOrder
+implements Order {
   private delta: Vector2 = new Vector2();
   private target: Vector2;
 
   constructor(target: Vector2) {
-    super();
     this.target = target;
   }
 

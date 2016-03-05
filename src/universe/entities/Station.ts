@@ -1,13 +1,18 @@
 import Entity from './Entity';
 import Vector2 from '../../common/Vector2';
+import Renderable from '../../radar/Renderable';
+import Stock from '../Stock';
 
-export default class Station extends Entity {
+export default class Station
+extends Entity
+implements Renderable
+{
   public size: string;
   public name: string;
 
+  public stock: Stock = new Stock();
+
   private hull: number;
-  private shields: number;
-  private orders: any[];
   private canvas: any;
   private context: any;
 
@@ -16,27 +21,13 @@ export default class Station extends Entity {
 
   constructor(options) {
     super();
+    this.pos = options.pos;
     this.size = options.size;
     this.name = options.name;
-    this.orders = [];
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
-  }
 
-  getOrders() {
-    return this.orders;
-  }
-
-  getCurrentOrder() {
-    return this.orders[this.orders.length - 1];
-  }
-
-  newOrder(order) {
-    this.orders.unshift(order);
-  }
-
-  cancelOrder() {
-    this.orders.pop();
+    this.stock.setRate('items.ores.iron', 100, 95);
   }
 
   renderStationIcon(x, y) {
@@ -82,11 +73,5 @@ export default class Station extends Entity {
   }
 
   tick(deltaTime, universe) {
-    const currentOrder = this.getCurrentOrder();
-    if (currentOrder) {
-      if (!currentOrder.action(deltaTime, universe, this)) {
-        this.cancelOrder();
-      }
-    }
   }
 }

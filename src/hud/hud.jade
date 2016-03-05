@@ -1,1 +1,4 @@
-hud-inspector(:entity="radar.selectedEntity")
+hud-navbar(:player="radar.player")
+div(v-if="radar.selectedEntity")
+  hud-inspector(:entity="radar.selectedEntity")
+  hud-inventory(:data="radar.selectedEntity.inventory")

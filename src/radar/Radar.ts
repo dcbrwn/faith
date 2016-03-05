@@ -1,13 +1,15 @@
 import Vector2 from '../common/Vector2';
 import Universe from '../universe/Universe';
 import BackgroundGrid from './BackgroundGrid';
+import Character from '../universe/entities/Character';
 import Station from '../universe/entities/Station';
 import Asteroid from '../universe/entities/Asteroid';
 import Ship from '../universe/entities/Ship';
+import Renderable from './Renderable';
 
 import FlyToDestinationOrder from '../universe/orders/FlyToDestinationOrder';
-import FollowShipOrder from '../universe/orders/FollowShipOrder';
-import MineAndTradeOrder from '../universe/orders/MineAndTradeOrder';
+import MineAsteroidOrder from '../universe/orders/MineAsteroidOrder';
+import SellItemsOrder from '../universe/orders/SellItemsOrder';
 import FloatAroundTargetOrder from '../universe/orders/FloatAroundTargetOrder';
  
 export default class Radar {
@@ -19,6 +21,7 @@ export default class Radar {
   private context: any;
   private universe: Universe;
   private grid: BackgroundGrid;
+  public player: Character;
 
   private startPoint: Vector2;
   private selectedEntity: Object;
@@ -38,6 +41,8 @@ export default class Radar {
     this.grid = new BackgroundGrid();
 
     this.context.font = '10px monospace';
+
+    this.setPlayer('David Bowman');
 
     window.onresize = (event) => {
       this.fitIntoScreen();
@@ -73,10 +78,13 @@ export default class Radar {
           if (selected && selected instanceof Ship) {
             selected.cancelOrder();
             if (highlighted instanceof Ship) {
-              const order = new FlyToDestinationOrder(highlighted.pos);
+              const order = new FloatAroundTargetOrder(highlighted.pos);
               selected.newOrder(order);
             } else if (highlighted instanceof Asteroid) {
-              const order = new MineAndTradeOrder(<Asteroid> highlighted);
+              const order = new MineAsteroidOrder(<Asteroid> highlighted);
+              selected.newOrder(order);
+            } else if (highlighted instanceof Station) {
+              const order = new SellItemsOrder(<Station> highlighted, 'items.ores.iron');
               selected.newOrder(order);
             } else {
               const destination = new Vector2(
@@ -120,25 +128,26 @@ export default class Radar {
     this.fitIntoScreen();
   }
 
-  getEntitiesAtPoint(sx, sy) {
-    const x = sx + this.position.x;
-    const y = sy + this.position.y;
+  setPlayer(name: string) {
+    const index = this.universe.entities.each((entity) => {
+      return entity instanceof Character && entity.getName() == name;
+    });
+    this.player = <Character> this.universe.entities.get(index);
+  }
 
-    return this.universe.getEntities()
-      .map((entity) => {
-        return {
-          distance: entity.pos.distanceTo(x, y),
-          entity: entity,
-        };
-      })
-      .filter((item) => item.distance <= 50)
-      .sort((a, b) => a.distance - b.distance);
+  getEntitiesAtPoint(sx, sy) {
+    const point = new Vector2(
+      sx + this.position.x,
+      sy + this.position.y
+    );
+
+    return this.universe.entities.findNearPoint(point, 40);
   }
 
   selectEntity(x, y) {
     const entities = this.getEntitiesAtPoint(x, y);
     if (entities.length > 0) {
-      this.selectedEntity = entities[0].entity;
+      this.selectedEntity = entities[0];
     } else {
       this.selectedEntity = null;
     }
@@ -148,7 +157,7 @@ export default class Radar {
   highlightEntity(x, y) {
     const entities = this.getEntitiesAtPoint(x, y);
     if (entities.length > 0) {
-      this.highlightedEntity = entities[0].entity;
+      this.highlightedEntity = entities[0];
     } else {
       this.highlightedEntity = null;
     }
@@ -209,6 +218,10 @@ export default class Radar {
   }
 
   renderEntity(entity) {
+    if (!entity.getImage) {
+      return;
+    }
+
     const x = entity.pos.x;
     const y = entity.pos.y;
     const ctx = this.context;
@@ -229,14 +242,14 @@ export default class Radar {
 
   render() {
     const ctx = this.context;
-    const entities = this.universe.getEntities();
 
     ctx.save();
     ctx.translate(-this.position.x, -this.position.y);
     this.renderGrid();
-    for (let i = entities.length - 1; i >= 0; i -= 1) {
-      this.renderEntity(entities[i]);
-    }
+    this.universe.entities.each((entity) => {
+      this.renderEntity(entity);
+      return false;
+    });
     ctx.restore();
   };
 }

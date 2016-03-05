@@ -1,7 +1,10 @@
 import Vector2 from '../../common/Vector2';
+import Placeable from '../../common/Placeable';
 import Universe from '../Universe';
 
-export default class Entity {
+export default class Entity
+implements Placeable
+{
   public pos: Vector2 = new Vector2();
   public vel: Vector2 = new Vector2();
   public mass: number = 10.0;
@@ -13,7 +16,10 @@ export default class Entity {
     this.temp
       .setVector(force)
       .mulScalar(time / this.mass);
-    this.vel.addVector(this.temp);
+
+    if (this.vel.length() < 300000) {
+      this.vel.addVector(this.temp);
+    }
   };
 
   tick(deltaTime: number, universe: Universe) {

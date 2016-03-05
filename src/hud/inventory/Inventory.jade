@@ -1,0 +1,12 @@
+.hud-panel.hud-inventory
+  h4 Inventory "{{ data.name }}" ({{data.getTotalVolume()}} / {{data.volume}})
+  hr
+  .hud-inventory-container
+    table.hud-inventory-list
+      thead
+        td(width="80%") Name
+        td(width="20%") Count
+      tbody
+        tr.hud-inventory-list-item(v-for="item in data.getSummary()")
+          td {{ item.name }}
+          td {{ item.count }}

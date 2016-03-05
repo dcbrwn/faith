@@ -1,14 +1,20 @@
 import Vector2 from '../../common/Vector2';
 import Entity from './Entity';
 import Renderable from '../../radar/Renderable';
+import Item from '../items/Item';
+import {
+  RocksChunk
+} from '../items/commons';
+import {
+  IronOre
+} from '../items/ores';
 
-export default class Asteroid extends Entity implements Renderable {
+export default class Asteroid extends Entity
+implements Renderable
+{
   public size: string;
   public name: string;
 
-  private hull: number;
-  private shields: number;
-  private orders: any[];
   private canvas: any;
   private context: any;
 
@@ -68,5 +74,15 @@ export default class Asteroid extends Entity implements Renderable {
   }
 
   tick(deltaTime, universe) {
+  }
+
+  mine(deltaTime): Item {
+    const result = Math.random();
+
+    if (result <= deltaTime / 3) {
+      return new IronOre();
+    } else if (result <= deltaTime) {
+      return new RocksChunk();
+    }
   }
 }

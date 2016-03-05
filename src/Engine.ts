@@ -1,39 +1,41 @@
 import Radar from './radar/Radar';
 import Universe from './universe/Universe';
+import UniverseGenerator from './universe/UniverseGenerator';
 
 export default class Engine {
   public universe: Universe;
   public radar: Radar;
 
-  private _running: boolean;
-  private _time: number;
+  private running: boolean;
+  private time: number;
 
   constructor(options) {
-    this.universe = new Universe();
+    const universeGenerator = new UniverseGenerator();
+    this.universe = universeGenerator.generate();
     this.radar = new Radar({
       universe: this.universe,
       canvasId: options.canvasId,
     });
-    this._running = false;
-    this._time = Date.now();
+    this.running = false;
+    this.time = Date.now();
   }
 
-  _tick() {
-    if (this._running) {
+  private tick() {
+    if (this.running) {
       const currentTime = Date.now(); 
-      this.universe.tick((currentTime - this._time) * 0.001);
+      this.universe.tick((currentTime - this.time) * 0.001);
       this.radar.render();
-      this._time = currentTime;
-      requestAnimationFrame(this._tick.bind(this));
+      this.time = currentTime;
+      requestAnimationFrame(this.tick.bind(this));
     }
   }
 
   start() {
-    this._running = true;
-    this._tick();
+    this.running = true;
+    this.tick();
   };
 
   stop() {
-    this._running = false;
+    this.running = false;
   }
 }

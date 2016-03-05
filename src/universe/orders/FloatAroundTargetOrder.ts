@@ -8,7 +8,9 @@ function clamp(value: number) :number {
   return Math.max(0.0, Math.min(1.0, value));
 }
 
-export default class FloatAroundTargetOrder extends Order {
+export default class FloatAroundTargetOrder
+implements Order
+{
   private baseVector: Vector2 = new Vector2(1.0, 0.0);
   private floatTarget: Vector2 = new Vector2();
   private delta: Vector2 = new Vector2();
@@ -16,7 +18,6 @@ export default class FloatAroundTargetOrder extends Order {
   private target: Vector2;
 
   constructor(target: Vector2) {
-    super();
     this.target = target;
   }
 

@@ -20,26 +20,14 @@ export default class NavigationHelper {
     const a = ship.force / ship.mass;
     const v0 = ship.vel.length();
     const t = v0 / a;
-    return v0*t + (a * t * t) / 2;
+    return v0 * t + (a * t * t) / 2;
   }
 
   findNearestStations(position: Vector2, radius: number): Station[] {
-    return this.universe.getEntities()
-      .reduce((nearest, entity) => {
-        if (entity instanceof Station) {
-          const distance = entity.pos.distanceToVector(position);
-          
-          if (distance < radius) {
-            nearest.push({
-              distance: distance,
-              station: <Station> entity,
-            });
-          }
-        }
-
-        return nearest;
-      }, [])
-      .sort((a, b) => a.distance - b.distance)
-      .map((entry) => entry.station);
+    return <Station[]> this.universe.entities
+      .findNearPoint(position, radius)
+      .filter((entity) => {
+        return entity instanceof Station;
+      });
   }
 }
