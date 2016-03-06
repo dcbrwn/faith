@@ -10,6 +10,7 @@ import Renderable from './Renderable';
 import FlyToDestinationOrder from '../universe/orders/FlyToDestinationOrder';
 import MineAsteroidOrder from '../universe/orders/MineAsteroidOrder';
 import SellItemsOrder from '../universe/orders/SellItemsOrder';
+import DockOrder from '../universe/orders/DockOrder';
 import FloatAroundTargetOrder from '../universe/orders/FloatAroundTargetOrder';
  
 export default class Radar {
@@ -84,7 +85,7 @@ export default class Radar {
               const order = new MineAsteroidOrder(<Asteroid> highlighted);
               selected.newOrder(order);
             } else if (highlighted instanceof Station) {
-              const order = new SellItemsOrder(<Station> highlighted, 'items.ores.iron');
+              const order = new DockOrder(<Station>highlighted);
               selected.newOrder(order);
             } else {
               const destination = new Vector2(
@@ -219,6 +220,10 @@ export default class Radar {
 
   renderEntity(entity) {
     if (!entity.getImage) {
+      return;
+    }
+
+    if (entity instanceof Ship && (<Ship> entity).isDocked) {
       return;
     }
 

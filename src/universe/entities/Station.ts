@@ -2,6 +2,7 @@ import Entity from './Entity';
 import Vector2 from '../../common/Vector2';
 import Renderable from '../../radar/Renderable';
 import Stock from '../Stock';
+import Hangar from '../Hangar';
 
 export default class Station
 extends Entity
@@ -11,6 +12,7 @@ implements Renderable
   public name: string;
 
   public stock: Stock = new Stock();
+  public hangar: Hangar;
 
   private hull: number;
   private canvas: any;
@@ -28,6 +30,8 @@ implements Renderable
     this.context = this.canvas.getContext('2d');
 
     this.stock.setRate('items.ores.iron', 100, 95);
+
+    this.hangar = new Hangar(1000.0, this);
   }
 
   renderStationIcon(x, y) {

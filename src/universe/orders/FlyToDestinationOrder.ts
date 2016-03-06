@@ -14,7 +14,7 @@ implements Order {
   }
 
   action(deltaTime: number, universe: Universe, ship: Ship): boolean {
-    if (ship.pos.isNearVector(this.target, 10) && ship.vel.length() <= 1.0) {
+    if (ship.pos.isNearVector(this.target, 10) && ship.vel.length() < 0.0001) {
       ship.throttle = 0.0;
       return false;
     }

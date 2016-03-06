@@ -15,8 +15,10 @@ implements Renderable
   public name: string;
   public speed: number;
   public cargo: number;
+  public volume: number;
   private hullMass = 10.0;
-  public owner: Character = null; 
+  public owner: Character = null;
+  public isDocked: boolean = false;
 
   public inventory: Inventory = new Inventory({
     volume: 100,
