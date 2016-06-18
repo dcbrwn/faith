@@ -6,7 +6,7 @@ import Inventory from './inventory/Inventory';
 import Navbar from './navbar/Navbar';
 import ProgressBar from './progressBar/ProgressBar';
 
-require('./hud.sass');
+require('./hud.scss');
 
 Vue.config.debug = false;
 

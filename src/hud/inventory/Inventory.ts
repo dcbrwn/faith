@@ -1,6 +1,6 @@
 import Vue = require('vue');
 
-require('./Inventory.sass');
+require('./Inventory.scss');
 
 export default Vue.extend({
   props: ['data'],

@@ -1,6 +1,6 @@
 import Vue = require('vue');
 
-require('./Navbar.sass');
+require('./Navbar.scss');
 
 export default Vue.extend({
   props: ['player'],

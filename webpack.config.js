@@ -9,7 +9,7 @@ module.exports = {
     filename: 'faith.js',
   },
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.sass']
+    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
   },
   devtool: 'source-map',
   module: {
@@ -25,7 +25,7 @@ module.exports = {
         loader: 'ts-loader',
       },
       {
-        test: /\.sass$/,
+        test: /\.scss$/,
         exclude: ['node_modules'],
         loaders: ['style', 'css', 'sass'],
       },

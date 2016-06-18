@@ -1,6 +1,6 @@
 import Vue = require('vue');
 
-require('./Inspector.sass');
+require('./Inspector.scss');
 
 export default Vue.extend({
   props: ['entity'],
